@@ -5,15 +5,15 @@ import java.io.Serializable;
 /* 
 Как сериализовать что-то свое?
 */
-public class Solution {
-    public static class Object {
+public class Solution  {
+    public static class Object implements Serializable {
         public String string1;
         public String string2;
     }
 
     public static int stringCount;
 
-    public static class String {
+    public static class String implements Serializable {
         private final int number;
 
         public String() {

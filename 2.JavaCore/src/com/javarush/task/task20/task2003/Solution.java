@@ -14,16 +14,24 @@ public class Solution {
 
     public static void save(OutputStream outputStream) throws Exception {
         //напишите тут ваш код
+        Properties prop = new Properties();
+        prop.putAll(runtimeStorage);
+        prop.store(outputStream, "");
     }
 
     public static void load(InputStream inputStream) throws IOException {
         //напишите тут ваш код
+        Properties prop = new Properties();
+        prop.load(inputStream);
+        prop.forEach((k, v) -> runtimeStorage.put((String) k, (String) v));
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
              FileInputStream fos = new FileInputStream(reader.readLine())) {
             load(fos);
+            save(new FileOutputStream("c:\\z\\0.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }

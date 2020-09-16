@@ -12,7 +12,7 @@ public class Solution {
     public static void main(String[] args) {
         //исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
+            File your_file_name = File.createTempFile("your_file_name", ".txt");
             OutputStream outputStream = new FileOutputStream(your_file_name);
             InputStream inputStream = new FileInputStream(your_file_name);
 
@@ -24,6 +24,8 @@ public class Solution {
             somePerson.load(inputStream);
             inputStream.close();
             //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
+            System.out.println(ivanov.equals(somePerson));
+            System.out.println(somePerson.name);
 
         } catch (IOException e) {
             //e.printStackTrace();
@@ -68,10 +70,36 @@ public class Solution {
 
         public void save(OutputStream outputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            writer.write(name);
+            writer.write("\n");
+            writer.flush();
+            writer.write(String.valueOf(assets.size()));
+            writer.write("\n");
+            for (Asset a: assets) {
+                writer.write(a.getName());
+                writer.write("\n");
+                writer.write(String.valueOf(a.getPrice()));
+                writer.write("\n");
+            }
+            writer.flush();
+
         }
 
         public void load(InputStream inputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            name = reader.readLine();
+            int n = Integer.parseInt(reader.readLine());
+            if (n > 0) {
+                assets = new ArrayList<>();
+                for (int i = 0; i < n; i++) {
+                    String aName = reader.readLine();
+                    double aPrice = Double.parseDouble(reader.readLine());
+                    Asset a = new Asset(aName, aPrice);
+                    assets.add(a);
+                }
+            }
         }
     }
 }

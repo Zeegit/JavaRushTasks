@@ -14,10 +14,15 @@ public class Solution {
 
         int methodModifiers = getMainMethod().getModifiers();
         System.out.println(isModifierSet(methodModifiers, Modifier.STATIC));      //true
+
+        Integer i = new Integer(1);
+        Integer j = new Integer(1);
+        System.out.println(i==1);
     }
 
     public static boolean isModifierSet(int allModifiers, int specificModifier) {
-        return false;
+        int mod = allModifiers & specificModifier;
+        return mod > 0;
     }
 
     private static Method getMainMethod() {

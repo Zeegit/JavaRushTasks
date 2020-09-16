@@ -48,10 +48,24 @@ public class Solution {
 
         public void save(OutputStream outputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            writer.write(staticString);
+            writer.write("\n");
+            writer.write(String.valueOf(i));
+            writer.write("\n");
+            writer.write(String.valueOf(j));
+            writer.write("\n");
+            writer.flush();
+            writer.close();
         }
 
         public void load(InputStream inputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            staticString = reader.readLine();
+            i = Integer.parseInt(reader.readLine());
+            j = Integer.parseInt(reader.readLine());
+            reader.close();
         }
 
         @Override
