@@ -5,7 +5,7 @@ package com.javarush.task.task16.task1617;
 */
 
 public class Solution {
-    public static volatile int numSeconds = 3;
+    public static volatile int numSeconds = 4;
 
     public static void main(String[] args) throws InterruptedException {
         RacingClock clock = new RacingClock();
@@ -24,10 +24,13 @@ public class Solution {
 
             try {
                 while (numSeconds > 0) {
+                    System.out.print(numSeconds + " ");
                     Thread.sleep(1000);
+                    numSeconds--;
                 }
+                System.out.println("Марш!");
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Прервано!");
             }
         }
     }
