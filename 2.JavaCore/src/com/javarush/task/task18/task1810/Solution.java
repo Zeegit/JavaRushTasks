@@ -10,7 +10,21 @@ DownloadException
 */
 
 public class Solution {
-    public static void main(String[] args) throws DownloadException {
+    public static void main(String[] args) throws DownloadException, IOException {
+
+        while (true) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String fn = reader.readLine();
+            reader.close();
+
+            FileInputStream f = new FileInputStream(fn);
+            int size = f.available();
+            f.close();
+
+            if (size < 1000) {
+                throw new DownloadException();
+            }
+        }
 
     }
 
