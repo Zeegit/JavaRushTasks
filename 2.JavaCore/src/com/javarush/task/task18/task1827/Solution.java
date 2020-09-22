@@ -1,6 +1,7 @@
 package com.javarush.task.task18.task1827;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,54 +10,40 @@ import java.util.List;
 */
 
 public class Solution {
-    public static class Price {
-        String id; // - 8 символов.
-        String productName; // название товара, 30символов .
-        String price; // цена, 8 символов.
-        String quantity; //количество, 4 символа.
-
-        public Price(String id, String productName, String price, String quantity) {
-            this.id = id;
-            this.productName = productName;
-            this.price = price;
-            this.quantity = quantity;
-        }
-    }
-
-    private static List<Price> list = new ArrayList<>();
-
     public static void main(String[] args) throws Exception {
-        args = new String[]{"-c", "productName", "price", "quantity"};
+        //args = new String[]{"-c", "Шорты пляжные синие", "159.00", "12"};
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        //String fileName = "c:\\z\\0.txt"; // reader.readLine();
         String fileName = reader.readLine();
         reader.close();
+        if (args.length > 0) {
+            switch (args[0]) {
+                case "-c":
+                    BufferedReader inFile = new BufferedReader(new FileReader(fileName));
+                    int max = 0;
+                    while (inFile.ready()) {
+                        String s = inFile.readLine();
+                        int num = Integer.parseInt(s.substring(0, 8).trim());
+                        max = Math.max(num, max);
+                    }
+                    inFile.close();
 
-        BufferedReader f1 = new BufferedReader(new FileReader(fileName));
+                    BufferedOutputStream outFile = new BufferedOutputStream(new FileOutputStream(fileName, true));
+                    Charset windows1251 = Charset.forName("Windows-1251");
+                    String newLine = String.format("%n%-8d%-30s%-8s%-4s", max + 1, args[1], args[2], args[3]);
 
-        while (f1.ready()) {
-            char[] id = new char[8];
-            char[] productName = new char[30];
-            char[] price = new char[8];
-            char[] quantity = new char[4];
-            System.out.println(f1.read(id));
-            System.out.println(f1.read(productName));
-            System.out.println(f1.read(price));
-            System.out.println(f1.read(quantity));
+                    byte[] buffer;
+                    buffer = newLine.getBytes(windows1251);
+                    outFile.write(buffer);
+
+
+                    outFile.close();
+
+                    //System.out.println(newLine);
+                    break;
+            }
+
         }
-        f1.close();
-
-        list.add(new Price("1", "weewr", "wer", "werw"));
-        list.add(new Price("1", "weewr", "wer", "werw"));
-        list.add(new Price("1", "weewr", "wer", "werw"));
-
-        BufferedWriter f2 = new BufferedWriter(new FileWriter(fileName));
-        for (int i = 0; i < list.size(); i++) {
-            f2.write(list.get(i).id, 0, 8);
-            f2.write(list.get(i).productName, 0, 30);
-            f2.write(list.get(i).price, 0, 8);
-            f2.write(list.get(i).quantity, 0, 4);
-        }
-
     }
 }
