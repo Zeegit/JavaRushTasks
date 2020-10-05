@@ -1,5 +1,6 @@
 package com.javarush.task.task25.task2503;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,9 +10,8 @@ public enum Column implements Columnable {
     AccountNumber("Account Number"),
     Amount("Available Amount");
 
-    private String columnName;
-
     private static int[] realOrder;
+    private String columnName;
 
     private Column(String columnName) {
         this.columnName = columnName;
@@ -50,22 +50,26 @@ public enum Column implements Columnable {
      */
     public static List<Column> getVisibleColumns() {
         List<Column> result = new LinkedList<>();
-
+        for (int i = 0; i < realOrder.length; i++) {
+            if (realOrder[i] != -1)
+                result.add(Column.values()[i]);
+        }
+        result.sort(Comparator.comparingInt(column -> realOrder[column.ordinal()]));
         return result;
     }
 
     @Override
     public String getColumnName() {
-        return null;
+        return columnName;
     }
 
     @Override
     public boolean isShown() {
-        return false;
+        return realOrder[this.ordinal()] != -1;
     }
 
     @Override
     public void hide() {
-
+        realOrder[this.ordinal()] = -1;
     }
 }
